@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            text-align: center; /* Centering the content */
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        a {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            margin: 10px 0;
+            border-radius: 5px;
+            text-decoration: none; /* Remove underline from links */
+            transition: background-color 0.3s ease; /* Smooth background color change */
+            width: 200px; /* Fixed width for all buttons */
+            box-sizing: border-box; /* Ensures that padding is included in the width */
+            text-align: center; /* Centers the text in the button */
+        }
+
+        a:hover {
+            background-color: #0056b3; /* Darken the button on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>This is the dashboard</h1>
+    <a href="{{ url_for('create_event') }}" >Host Event</a>
+    <br>
+    <a href="{{ url_for('view_my_events') }}" >My Events</a>
+    <br>
+    <a href="{{ url_for('update_profile') }}" >Update Profile</a>
+    <br>
+    <a href="{{ url_for('change_password') }}" >Change Password</a>
+    <br>
+    <a href="{{ url_for('logout') }}" >Logout</a>
+
+</body>
+</html>

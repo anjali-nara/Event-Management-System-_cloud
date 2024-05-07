@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Conference Registration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .button {
+            color: white;
+            background-color: #009879;
+            border: none;
+            padding: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            font-size: 0.8em;
+        }
+        .button:hover {
+            background-color: #007965;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Conference Registration</h1>
+                <!-- Display flash messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+    
+        <form action="{{ url_for('process_conference_registration', event_id=event['_id']|string) }}" method="post">
+
+            <div class="form-group">
+                <label for="registration_code">Registration Code:</label>
+                <input type="text" name="registration_code" id="registration_code" required>
+            </div>
+            <button type="submit" class="button">Submit</button>
+        </form>
+        <a class="button" href="{{ url_for('user_dashboard') }}">Back to Dashboard</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Room</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 40px;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        input[type=text], input[type=number], input[type=time], select {
+            width: calc(100% - 16px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <form action="{{ url_for('edit_room', room_id=room['_id']) }}" method="post">
+        <h1>Edit Room Details</h1> 
+
+        <div class="form-group">
+            <label for="room_name">Room Name:</label>
+            <input type="text" id="room_name" name="room_name" value="{{ room.room_name }}" required>
+        </div>
+        <div class="form-group">
+            <label for="type_of_room">Type of Room:</label>
+            <select id="type_of_room" name="type_of_room" required>
+                <option value="exhibition" {{ 'selected' if room.type_of_room == 'exhibition' }}>Exhibition</option>
+                <option value="sports_concerts" {{ 'selected' if room.type_of_room == 'sports_concerts' }}>Sports or Concerts</option>
+                <option value="conferences" {{ 'selected' if room.type_of_room == 'conferences' }}>Conferences</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="occupancy">Occupancy:</label>
+            <input type="number" id="occupancy" name="occupancy" value="{{ room.occupancy }}" required>
+        </div>
+        <div class="form-group">
+            <label for="venue">Venue:</label>
+            <input type="text" id="venue" name="venue" value="{{ room.venue }}" required>
+        </div>
+        <!-- Include other fields as necessary -->
+
+        <button type="submit">Update Room</button>
+        <br>
+        <br>
+        <a class="button" href="{{ url_for('admin_view_rooms') }}">Back to Rooms List</a>
+    </form>
+</body>
+</html>

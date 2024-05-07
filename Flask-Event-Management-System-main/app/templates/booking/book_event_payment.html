@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Payment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left; /* Ensure contents align to the left */
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            display: flex; /* Use flexbox for alignment */
+            flex-direction: column; /* Stack label and input vertically */
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="month"],
+        .form-group select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .button, a.button {
+            background-color: #009879;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block; /* Make buttons block-level for full width */
+            width: 100%; /* Full width */
+            text-decoration: none; /* Remove underline from anchor */
+            margin: 10px 0; /* Add some margin around buttons */
+        }
+
+        .button:hover, a.button:hover {
+            background-color: #007965;
+        }
+
+        .ticket-cost {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.2em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Event Payment</h1>
+        <div class="ticket-cost">
+            Ticket Cost: $<span id="ticketCost">{{ event['ticketCost'] }}</span>
+        </div>
+        <form id="paymentForm" action="{{ url_for('process_payment', event_id=event['_id']) }}" method="post">
+            <input type="hidden" name="ticket_cost" value="{{ event['ticketCost'] }}">
+            <input type="hidden" name="event_id" value="{{ event['_id'] }}">
+                <div class="form-group">
+                    <label for="payment_method">Payment Method:</label>
+                    <select name="payment_method" id="payment_method" required onchange="togglePaymentMethod()">
+                        <option value="credit_card">Credit Card</option>
+                        <option value="debit_card">Debit Card</option>
+                        <option value="checking_account">Checking Account</option>
+                    </select>
+                </div>
+                <br>
+
+    
+
+                <div id="cardDetails" style="display: none;">
+                    <!-- Card Number -->
+                    <div class="form-group">
+                        <label for="card_number">Card Number:</label>
+                        <input type="text" name="card_number" id="card_number">
+                    </div>
+                    <!-- Expiration Date -->
+                    <div class="form-group">
+                        <label for="expiration_date">Expiration Date:</label>
+                        <input type="month" name="expiration_date" id="expiration_date">
+                    </div>
+                    <!-- CVV -->
+                    <div class="form-group">
+                        <label for="cvv">CVV:</label>
+                        <input type="text" name="cvv" id="cvv">
+                    </div>
+                </div>
+    
+                <!-- Checking Account Details -->
+                <div id="checkingDetails" style="display: none;">
+                    <!-- Account Number -->
+                    <div class="form-group">
+                        <label for="account_number">Account Number:</label>
+                        <input type="text" name="account_number" id="account_number">
+                    </div>
+                    <!-- Routing Number -->
+                    <div class="form-group">
+                        <label for="routing_number">Routing Number:</label>
+                        <input type="text" name="routing_number" id="routing_number">
+                    </div>
+                </div>
+                <br>
+                <button type="submit" class="button">Submit Payment</button>
+                <br>
+            </form> 
+    </div> 
+    <a href="{{ url_for('user_dashboard') }}" class="button">Dashboard</a>
+
+    <script>
+        function togglePaymentMethod() {
+            const paymentMethod = document.getElementById("payment_method").value;
+            const cardDetails = document.getElementById("cardDetails");
+            const checkingDetails = document.getElementById("checkingDetails");
+
+            cardDetails.style.display = paymentMethod === "credit_card" || paymentMethod === "debit_card" ? "block" : "none";
+            checkingDetails.style.display = paymentMethod === "checking_account" ? "block" : "none";
+        }
+
+        document.getElementById("payment_method").addEventListener("change", togglePaymentMethod);
+        window.onload = togglePaymentMethod; // Ensure correct display on initial load
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Master - Your Event Management Hub</title>
+    <!-- <style>
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f9f9f9;
+        color: #333;
+      }
+
+      .header {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 0;
+        border: 5px solid #007bff;
+        border-radius: 8px;
+        text-align: center;
+        font-size: 24px;
+      }
+
+      .intro-text {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 18px;
+        border-radius: 8px;
+      }
+
+      table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        text-align: left;
+        padding: 12px;
+        border: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #4caf50;
+        color: white;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      .link-container {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .button-link {
+        padding: 10px 20px;
+        font-size: 16px;
+        text-decoration: none;
+        color: white;
+        background-color: #007bff;
+        border: none;
+        border-radius: 4px;
+      }
+
+      .button-link:hover {
+        background-color: #0056b3;
+      }
+
+      footer {
+        margin-top: 20px;
+        text-align: center;
+        padding: 20px;
+        background-color: #f1f1f1;
+        color: #333;
+      }
+    </style> -->
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Align vertically */
+        align-items: center; /* Align horizontally */
+        height: 100vh;
+        margin: 0;
+        font-family: "Arial", sans-serif;
+        background-color: #fafafa;
+        color: #333;
+      }
+
+      .header {
+        background-color: #123456; /* Dark blue, as an example */
+        color: #ffffff;
+        padding: 20px 0;
+        border-radius: 8px;
+        width: 90%;
+        margin-bottom: 0.5em;
+        text-align: center;
+        font-size: 28px; /* Slightly larger font for header */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+      }
+
+      .image-slider {
+        position: relative;
+        max-width: 80%;
+        margin: auto;
+        overflow: hidden;
+      }
+
+      .slide {
+        display: none;
+      }
+
+      .slide img {
+        width: 1200px;
+        height: auto;
+      }
+
+      .prev,
+      .next {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        padding: 16px;
+        margin-top: -22px;
+        color: white;
+        font-weight: bold;
+        font-size: 18px;
+        transition: 0.6s ease;
+        border-radius: 0 3px 3px 0;
+        user-select: none;
+      }
+
+      .next {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+      }
+
+      .prev:hover,
+      .next:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+
+      .intro-text {
+        margin-top: 50px;
+        max-width: 80%;
+        text-align: center;
+        font-size: 20px; /* Larger font for introduction */
+        color: #333333;
+        font-family: "Open Sans", sans-serif; /* Example font */
+        font-weight: 400;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 0.5em;
+      }
+      hr {
+        width: 70%;
+        margin-top: 0.5em;
+        margin-bottom: 20px;
+        border: none;
+        border-top: 1px solid #a1a1a1;
+      }
+      legend {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+      /* Table Styles */
+      table {
+        width: 50%;
+        margin-top: 0.5em;
+        margin-bottom: 20px;
+        border-collapse: collapse;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow to table */
+      }
+
+      th,
+      td {
+        text-align: left;
+        padding: 15px; /* Increase padding for a more spacious layout */
+        border: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #28a745; /* A more vibrant green for headers */
+        color: white;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f9f9f9; /* Lighter background for even rows */
+      }
+
+      .link-container {
+        gap: 10px; /* Maintain a gap between buttons */
+        margin-top: 20px;
+      }
+
+      /* Button Styles */
+      .button-link {
+        padding: 12px 25px;
+        font-size: 16px;
+        text-decoration: none;
+        color: white;
+        background-color: #007bff;
+        border: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease; /* Transition for smooth color change */
+      }
+
+      .button-link:hover {
+        background-color: #0056b3;
+        cursor: pointer; /* Change cursor to indicate clickable */
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        body {
+          padding: 10px;
+        }
+
+        .header {
+          font-size: 24px; /* Smaller font size on smaller screens */
+        }
+
+        .intro-text {
+          font-size: 18px;
+        }
+
+        .link-container {
+          flex-direction: column; /* Stack buttons vertically on small screens */
+          align-items: center;
+        }
+
+        .button-link {
+          width: 100%; /* Full width buttons on small screens */
+          margin-bottom: 10px; /* Add space between stacked buttons */
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="header">
+      Event Master - Your Gateway to Seamless Event Management
+    </div>
+    <div class="image-slider">
+      <div class="slide">
+        <img
+          src="https://images.unsplash.com/photo-1468359601543-843bfaef291a?q=80&w=2074&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="Event Management 1"
+        />
+      </div>
+      <div class="slide">
+        <img
+          src="https://images.unsplash.com/photo-1548497557-5c4e6cb1cafd?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGV2ZW50JTIwbWFuYWdlbWVudHxlbnwwfHwwfHx8MA%3D%3D"
+          alt="Event Management 2"
+        />
+      </div>
+      <div class="slide">
+        <img
+          src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZXZlbnQlMjBtYW5hZ2VtZW50fGVufDB8fDB8fHww"
+          alt="Event Management 3"
+        />
+      </div>
+      <!-- Add more slides as needed -->
+      <a class="prev" onclick="moveSlide(-1)">&#10094;</a>
+      <a class="next" onclick="moveSlide(1)">&#10095;</a>
+    </div>
+
+    <p class="intro-text">
+      Welcome to Event Master, your one-stop portal for managing and organizing
+      events with ease. Discover, plan, and execute events with our
+      comprehensive event management solutions.
+    </p>
+    <hr />
+    <legend>Organizers</legend>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Events</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for organizer in organizers %}
+        <tr>
+          <td>
+            {{ organizer.name if organizer.name else organizer.user_name }}
+          </td>
+          <td>{{ organizer.event_count   }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="link-container">
+      <a href="{{ url_for('login') }}" class="button-link">Login</a>
+      <a href="{{ url_for('register_organizer') }}" class="button-link"
+        >Register as Organizer</a
+      >
+      <a href="{{ url_for('register_user') }}" class="button-link"
+        >Register as User</a
+      >
+      <a href="{{ url_for('forgot_password') }}" class="button-link"
+        >Forgot Password?</a
+      >
+    </div>
+
+    <script>
+      var slideIndex = 1;
+      showSlides(slideIndex);
+
+      function moveSlide(n) {
+        showSlides((slideIndex += n));
+      }
+
+      function showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("slide");
+        if (n > slides.length) {
+          slideIndex = 1;
+        }
+        if (n < 1) {
+          slideIndex = slides.length;
+        }
+        for (i = 0; i < slides.length; i++) {
+          slides[i].style.display = "none";
+        }
+        slides[slideIndex - 1].style.display = "block";
+      }
+    </script>
+  </body>
+</html>

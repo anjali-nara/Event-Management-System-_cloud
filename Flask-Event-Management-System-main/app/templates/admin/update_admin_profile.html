@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Update Admin Profile</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f4f4f4;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .profile-container {
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        width: 500px;
+        font-size: 16px;
+        position: relative; /* For absolute positioning of the back arrow */
+      }
+      h2 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 24px;
+        position: relative; /* For positioning the back arrow */
+        padding-left: 30px; /* Give space for the back arrow */
+      }
+      .back-arrow {
+        position: absolute;
+        left: 40px; /* Adjusted position */
+        top: 65px; /* Adjusted position */
+        width: 30px; /* New size for the arrow */
+        height: 30px; /* New size for the arrow */
+        font-size: 30px; /* Adjusted font size */
+        background-color: #4a90e2;
+        color: white;
+        border-radius: 50%; /* Make it round */
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        transition: background-color 0.3s, transform 0.3s;
+      }
+      .back-arrow:hover {
+        background-color: #357abd;
+        transform: translateX(-5px); /* Move arrow to the left when hovering */
+      }
+      .back-arrow a {
+        display: block;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+        line-height: 20px; /* Center the arrow vertically */
+        text-align: center;
+        color: white; /* White arrow color */
+        text-decoration: none;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      label {
+        font-weight: 600;
+        margin-top: 20px;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="date"],
+      select,
+      textarea {
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+      textarea {
+        height: 100px;
+        resize: vertical;
+      }
+      input[type="submit"],
+      .button {
+        background-color: #4a90e2; /* Blue color to match other forms */
+        color: white;
+        border: none;
+        font-size: 16px;
+        letter-spacing: 1px;
+        padding: 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        text-decoration: none;
+        text-align: center;
+        display: inline-block;
+        margin-top: 20px;
+      }
+      input[type="submit"]:hover,
+      .button:hover {
+        background-color: #357abd;
+      }
+      @media (max-width: 600px) {
+        .profile-container {
+          width: 90%;
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="profile-container">
+      <div class="back-arrow">
+        <a href="{{ url_for('admin_dashboard') }}">&#8592;</a>
+      </div>
+      <h2>Update Admin Profile</h2>
+      <form action="/update_admin_profile" method="post">
+        <label for="name">Name:</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value="{{ admin.name }}"
+          required
+        />
+
+        <label for="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value="{{ admin.email }}"
+          required
+        />
+
+        <label for="phone">Phone:</label>
+        <input
+          type="text"
+          id="phone"
+          name="phone"
+          value="{{ admin.phone }}"
+          required
+        />
+
+        <label for="address">Address:</label>
+        <textarea id="address" name="address" required>
+{{ admin.address }}</textarea
+        >
+
+        <label for="dob">Date of Birth:</label>
+        <input
+          type="date"
+          id="dob"
+          name="dob"
+          value="{{ admin.dob }}"
+          required
+        />
+        <label for="gender">gender:</label>
+        <select id="gender" name="gender" required>
+          <option value="male" {{ 'selected' if admin.gender == "male" else ''
+          }}>Male <option value="female" {{ 'selected' if admin.gender == "female"
+          else '' }}>Female <option value="other" {{ 'selected' if admin.gender ==
+          "other" else '' }}>Other
+        </select>
+
+        <input type="submit" value="Update" />
+        <!-- <a class="button" href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a> -->
+      </form>
+    </div>
+  </body>
+</html>

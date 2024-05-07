@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login</title>
+    <!-- <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f4f4f4;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh; /* Full viewport height */
+      }
+      h2 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      form {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 300px; /* Fixed width */
+      }
+      label {
+        display: block;
+        margin-top: 10px;
+        margin-bottom: 5px;
+      }
+      .register-link {
+        color: #007bff;
+        text-decoration: none;
+        display: block; /* Allows the link to occupy its own line */
+        margin-top: 15px; /* Additional space from the last element */
+        text-align: center; /* Center align the text */
+        font-size: 1em; /* Maintain the same font size */
+      }
+      .register-link:hover {
+        text-decoration: underline; /* Adds an underline on hover for better visibility */
+      }
+      input[type="email"],
+      input[type="password"],
+      select,
+      input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box; /* Include padding in width */
+      }
+      input[type="submit"] {
+        background-color: #5cb85c;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+      }
+      input[type="submit"]:hover {
+        background-color: #4cae4c;
+      }
+      select {
+        display: block;
+      }
+      .forgot-password {
+        color: #007bff;
+        text-decoration: none;
+        display: block; /* Allows the link to occupy its own line */
+        margin-top: 10px; /* Additional space from the submit button */
+        font-size: 0.9em; /* Slightly smaller font size */
+      }
+
+      .forgot-password:hover {
+        text-decoration: underline; /* Adds an underline on hover for better visibility */
+      }
+    </style> -->
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f4f4f4;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .login-container {
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        width: 340px;
+      }
+      h2 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 24px; /* Larger font size */
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+      label {
+        font-weight: 600;
+        margin: 10px 0 5px;
+      }
+      input[type="email"],
+      input[type="password"],
+      select,
+      input[type="submit"] {
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+      input[type="submit"] {
+        background-color: #4a90e2; /* A more vibrant blue */
+        color: white;
+        border: none;
+        font-size: 16px;
+        letter-spacing: 1px; /* Added spacing for better readability */
+        transition: background-color 0.3s;
+        margin-top: 10px;
+      }
+      input[type="submit"]:hover {
+        background-color: #357abd;
+      }
+      .link-section {
+        text-align: center;
+      }
+      .register-link,
+      .forgot-password {
+        color: #4a90e2;
+        text-decoration: none;
+        margin-top: 10px;
+        transition: color 0.3s;
+      }
+      .register-link:hover,
+      .forgot-password:hover {
+        color: #357abd;
+        text-decoration: underline;
+      }
+      .register-section {
+        text-align: center;
+        margin-top: 10px;
+        font-size: 16px;
+        color: #777;
+      }
+      /* Responsive Design */
+      @media (max-width: 600px) {
+        .login-container {
+          width: 90%;
+          padding: 20px;
+        }
+        h2 {
+          font-size: 20px;
+        }
+        input[type="submit"] {
+          font-size: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <form action="/login" method="post">
+        <h2>Login</h2>
+        <label for="user_type">I am a:</label>
+        <select name="user_type" id="user_type">
+          <option value="organizer">Organizer</option>
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+        </select>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required />
+
+        <input type="submit" value="Login" />
+        <div class="link-section">
+          <a href="/forgot_password" class="forgot-password"
+            >Forgot Password?</a
+          >
+          <div class="register-section">
+            <a href="/register_organizer" class="register-link"
+              >Register as Organizer</a
+            >
+            <span>|</span>
+            <a href="/register_user" class="register-link">Register as User</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

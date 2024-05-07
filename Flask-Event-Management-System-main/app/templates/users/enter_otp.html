@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enter OTP</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-top: 10px;
+            width: 300px; /* Fixed width for consistency */
+        }
+        label {
+            display: block;
+            margin: 10px 0px;
+        }
+        input[type=text],
+        input[type=submit] {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type=submit] {
+            width: auto;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+        }
+        input[type=submit]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h2>Enter OTP</h2>
+    <form action="/enter_otp" method="post">
+        <label for="otp">OTP:</label>
+        <input type="text" id="otp" name="otp" required>
+        <br><br>
+
+        <input type="submit" value="Verify">
+    </form>
+</body>
+</html>

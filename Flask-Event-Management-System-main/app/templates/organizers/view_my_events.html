@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Bookings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Updated font for a modern look */
+            padding: 20px;
+            margin: 0;
+            background-color: #f4f7f6; /* Light background color for ease of reading */
+            color: #333; /* Darker text color for contrast */
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%; /* Full-width tables for better use of space */
+            border-collapse: collapse; /* Collapses border to remove any space between them */
+            margin-top: 20px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        }
+
+        th, td {
+            padding: 12px 15px; /* Increased padding for a more spacious layout */
+            text-align: left;
+            border-bottom: 1px solid #ddd; /* Keeps a light border for separation */
+        }
+
+        th {
+            background-color: #007bff; /* Primary color for headers */
+            color: #ffffff; /* White text for contrast */
+            font-weight: normal;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2; /* Zebra-striping for rows */
+        }
+
+        tr:hover {
+            background-color: #ddd; /* Hover effect for rows */
+        }
+
+        .button, .button2 {
+            padding: 10px 15px;
+            font-size: 16px; /* Increased font size for better readability */
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .button:hover, .button2:hover {
+            background-color: #0056b3; /* Darker shade for hover state */
+        }
+
+        .edit-button {
+            background-color: #28a745;
+        }
+
+        .delete-button {
+            background-color: #dc3545;
+        }
+
+        .edit-button:hover {
+            background-color: #218838;
+        }
+
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+
+        .button2 {
+            background-color: #6c757d; /* Secondary button for less prominence */
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 5px;
+            }
+
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            th, td {
+                text-align: right;
+                padding-left: 50%;
+            }
+
+            td:before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                font-weight: bold;
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Bookings</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Event Name</th>
+                    <th>Date Time </th>
+                    <th>Visitors</th>
+                    <th>Room Type</th>
+                    <th>Ticket Cost/Code</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in events %}
+                <tr>
+                    <td>{{ event.eventName }}</td>
+                    <td>{{ event.date }} - {{ event.start_time }} - {{ event.end_time }}</td>
+                    <td>{{ event.eventTypeDetails.current_vistors }}</td>
+                    <td>{{ event.eventTypeDetails.type_of_room }}</td>
+                    <td>
+                        {% if event.eventTypeDetails.type_of_room == 'conferences' %}
+                        {{ event.secret_code }}
+                        {% elif event.eventTypeDetails.type_of_room == 'sports_concerts' %}
+                        ${{ event.ticketCost }}
+                        {% else %}
+                        ${{ event.ticketCost }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a class="button edit-button" href="{{ url_for('edit_event', event_id=event._id) }}"><i class="fas fa-pen"></i> Edit / Pay</a>
+                        <a class="button delete-button" href="{{ url_for('delete_event', event_id=event._id) }}" onclick="return confirm('Are you sure?');"><i class="fas fa-trash"></i> Delete</a>
+                        <a class="button2 update-status-button" href="{{ url_for('view_my_events') }}"><i class="fas fa-sync"></i> Update Status</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <a class="button" href="{{ url_for('create_event') }}">Create New Event</a>
+    <a class="button2" href="{{ url_for('organizer_dashboard') }}" style="margin-top: 20px;">Back to Dashboard</a>
+</body>
+</html>

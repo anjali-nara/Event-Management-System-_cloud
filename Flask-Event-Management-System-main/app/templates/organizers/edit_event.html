@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Event</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input[type="date"],
+        .form-group input[type="time"],
+        .form-group input[type="number"],
+        .form-group input[type="text"],
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .submit-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Edit Event</h2>
+        <form method="post" class="event-form">
+            <div class="form-group">
+                <label for="eventName">Event Name:</label>
+                <input type="text" name="eventName" id="eventName" value="{{ event.eventName }}" required>
+            </div>
+            <div class="form-group">
+                <label for="eventType">Event Type:</label>
+                <select name="eventType" id="eventType" required>
+                    <option value="">Select an Event Type</option>
+                    <!-- Dynamically select the appropriate option based on event.eventType -->
+                    <option value="exhibition" {{ 'selected' if event.eventType == 'exhibition' else '' }}>Exhibition</option>
+                    <option value="sports_concerts" {{ 'selected' if event.eventType == 'sports_concerts' else '' }}>Sports or Concerts</option>
+                    <option value="conferences" {{ 'selected' if event.eventType == 'conferences' else '' }}>Conferences</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" name="date" id="date" value="{{ event.date }}" required>
+            </div>
+            <div class="form-group">
+                <label for="start_time">Start Time:</label>
+                <input type="time" name="start_time" id="start_time" value="{{ event.start_time }}" required>
+            </div>
+            <div class="form-group">
+                <label for="end_time">End Time:</label>
+                <input type="time" name="end_time" id="end_time" value="{{ event.end_time }}" required>
+            </div>
+            <div class="form-group">
+                <label for="roomID">Room:</label>
+                <select name="roomID" id="roomID" required>
+                    <option value="">Select a Room</option>
+                    <!-- Options will be dynamically populated here based on availability and the current selection -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="ticket_cost">Ticket Cost: ($ per ticket)</label>
+                <input type="number" name="ticket_cost" id="ticket_cost" value="{{ event.ticketCost }}" required>
+            </div>
+            <button type="submit" class="submit-btn">Update Event</button>
+        </form>
+        <a class="button" href="{{ url_for('organizer_dashboard') }}">Back to Dashboard</a>
+    </div>
+
+    <!-- Similar JavaScript for fetching available rooms can be included here -->
+
+    <script>
+        async function fetchAvailableRooms() {
+            const eventType = document.getElementById('eventType').value;
+            const startTime = document.getElementById('start_time').value;
+            const endTime = document.getElementById('end_time').value;
+            const bookingDate = document.getElementById('date').value;
+    
+            if (!eventType || !startTime || !endTime || !bookingDate) {
+                console.log('Please select event type, start time, end time, and booking date.');
+                return;
+            }
+    
+            const url = `/admin/available_rooms?type_of_room=${eventType}&start_time=${startTime}&end_time=${endTime}&booking_date=${bookingDate}`;
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Network response was not ok.');
+                const rooms = await response.json();
+                displayAvailableRooms(rooms);
+            } catch (error) {
+                console.error('Error fetching available rooms:', error);
+            }
+        }
+    
+        function displayAvailableRooms(rooms) {
+            const select = document.getElementById('roomID');
+            select.innerHTML = '<option value="">Please select a room</option>';
+            rooms.forEach(room => {
+                const option = document.createElement('option');
+                option.value = room._id;
+                option.textContent = `${room.room_name} - Occupancy: ${room.occupancy} - Venue: ${room.venue}`;
+                select.appendChild(option);
+            });
+        }
+    
+        document.getElementById('eventType').addEventListener('change', fetchAvailableRooms);
+        document.getElementById('date').addEventListener('change', fetchAvailableRooms);
+        document.getElementById('start_time').addEventListener('change', fetchAvailableRooms);
+        document.getElementById('end_time').addEventListener('change', fetchAvailableRooms);
+    </script>
+</body>
+</html>

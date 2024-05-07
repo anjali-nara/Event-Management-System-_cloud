@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create an Event</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input[type="date"],
+        .form-group input[type="time"],
+        .form-group input[type="number"],
+        .form-group input[type="text"],
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .submit-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Create an Event</h2>
+        <form method="post" class="event-form" action="{{ url_for('create_event') }}">
+            <div class="form-group">
+                <label for="eventName">Event Name:</label>
+                <input type="text" name="eventName" id="eventName" required>
+            </div>
+            <div class="form-group">
+                <label for="eventType">Event Type:</label>
+                <select name="eventType" id="eventType" required>
+                    <option value="">Select an Event Type</option>
+                    <option value="exhibition">Exhibition</option>
+                    <option value="sports_concerts">Sports or Concerts</option>
+                    <option value="conferences">Conferences</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" name="date" id="date" required>
+            </div>
+            <div class="form-group">
+                <label for="start_time">Start Time:</label>
+                <input type="time" name="start_time" id="start_time" required>
+            </div>
+            <div class="form-group">
+                <label for="end_time">End Time:</label>
+                <input type="time" name="end_time" id="end_time" required>
+            </div>
+            <div class="form-group">
+                <label for="roomID">Room:</label>
+                <select name="roomID" id="roomID" required>
+                    <option value="">Select a Room</option>
+                    <!-- Options will be dynamically populated here -->
+                </select>
+            </div>
+            <div class="form-group" id="ticketCostGroup">
+                <label for="ticket_cost">Ticket Cost: ($ per ticket)</label>
+                <input type="number" name="ticket_cost" id="ticket_cost" >
+            </div>
+            <div class="form-group" id="secretCodeGroup" style="display: none;">
+                <label for="secret_code">Secret Code:</label>
+                <input type="text" name="secret_code" id="secret_code">
+            </div>
+            
+            <button type="submit" class="submit-btn">Create Event</button>
+        </form>
+        <a class="button" href="{{ url_for('organizer_dashboard') }}">Back to Dashboard</a>
+    </div>
+
+    <script>
+        function toggleInputFields(eventType) {
+            const ticketCostGroup = document.getElementById('ticketCostGroup');
+            const secretCodeGroup = document.getElementById('secretCodeGroup');
+            if (eventType === 'conferences') {
+                ticketCostGroup.style.display = 'none';
+                secretCodeGroup.style.display = 'block';
+            } else {
+                ticketCostGroup.style.display = 'block';
+                secretCodeGroup.style.display = 'none';
+            }
+        }
+        
+        async function fetchAvailableRooms() {
+            const eventType = document.getElementById('eventType').value;
+            const startTime = document.getElementById('start_time').value;
+            const endTime = document.getElementById('end_time').value;
+            const bookingDate = document.getElementById('date').value;
+        
+            toggleInputFields(eventType); // Call to toggle input fields based on event type
+        
+            if (!eventType || !startTime || !endTime || !bookingDate) {
+                console.log('Please select event type, start time, end time, and booking date.');
+                return;
+            }
+            
+            const url = `/admin/available_rooms?type_of_room=${eventType}&start_time=${startTime}&end_time=${endTime}&booking_date=${bookingDate}`;
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Network response was not ok.');
+                const rooms = await response.json();
+                displayAvailableRooms(rooms);
+            } catch (error) {
+                console.error('Error fetching available rooms:', error);
+            }
+        }
+    
+        function displayAvailableRooms(rooms) {
+            const select = document.getElementById('roomID');
+            select.innerHTML = '<option value="">Please select a room</option>';
+            rooms.forEach(room => {
+                const option = document.createElement('option');
+                option.value = room._id;
+                option.textContent = `${room.room_name} - Occupancy: ${room.occupancy} - Venue: ${room.venue}`;
+                select.appendChild(option);
+            });
+        }
+    
+        document.getElementById('eventType').addEventListener('change', function() {
+            fetchAvailableRooms();
+            toggleInputFields(this.value);
+        });
+        document.getElementById('date').addEventListener('change', fetchAvailableRooms);
+        document.getElementById('start_time').addEventListener('change', fetchAvailableRooms);
+        document.getElementById('end_time').addEventListener('change', fetchAvailableRooms);
+            </script>
+</body>
+</html>
